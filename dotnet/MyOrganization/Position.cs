@@ -11,50 +11,50 @@ namespace MyOrganization
     internal class Position
     {
         private string title;
-        private Employee? employee;
+        private Optional<Employee> employee;
         private HashSet<Position> directReports;
 
         public Position(string title)
         {
             this.title = title;
-            employee = null;
+            employee = Optional<Employee>.Empty();
             directReports = new HashSet<Position>();
         }
 
-        public Position(String title, Employee employee) : this(title)
+        public Position(string title, Employee employee) : this(title)
         {
             if (employee != null)
-                SetEmployee(employee);
+                SetEmployee(Optional<Employee>.Of(employee));
         }
 
-        public String GetTitle()
+        public string GetTitle()
         {
             return title;
         }
 
-        public void SetEmployee(Employee? employee)
+        public void SetEmployee(Optional<Employee> employee)
         {
             this.employee = employee;
         }
 
-        public Employee? GetEmployee()
+        public Optional<Employee> GetEmployee()
         {
             return employee;
         }
 
-        public Boolean IsFilled()
+        public bool IsFilled()
         {
-            return employee != null;
+            return employee.IsPresent();
         }
 
-        public Boolean AddDirectReport(Position position)
+        public bool AddDirectReport(Position position)
         {
             if (position == null)
                 throw new Exception("position cannot be null");
             return directReports.Add(position);
         }
 
-        public Boolean RemovePosition(Position position)
+        public bool RemovePosition(Position position)
         {
             return directReports.Remove(position);
         }
@@ -64,9 +64,10 @@ namespace MyOrganization
             return directReports.ToImmutableList();
         }
 
-        override public string ToString()
+        public override string ToString()
         {
-            return title + (employee != null ? ": " + employee.ToString() : "");
+            return title + (employee.IsPresent() ? ": " + employee.Value.ToString() : "");
         }
     }
+
 }
