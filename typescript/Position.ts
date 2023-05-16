@@ -33,5 +33,4 @@ class Position {
     return `${this.title}${employee}`;
   };
 }
-
 export default Position;
