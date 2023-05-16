@@ -1,5 +1,7 @@
 class Organization {
   constructor(root) {
+    this.root = root;
+
     this.printOrganization = (position, prefix) => {
       let str = `${prefix}+-${position.toString()}\n`;
       for (const p of position.getDirectReports()) {
@@ -8,14 +10,26 @@ class Organization {
       return str;
     };
 
-    // Hire the given person as an employee in the position that has that title
-    // Return the newly filled position or undefined if no position has that title
     this.hire = (person, title) => {
-      // your code here
+      const search = (position, title) => {
+        if (position.getTitle() === title) {
+          position.setEmployee(person);
+          return position;
+        }
+        for (const report of position.getDirectReports()) {
+          const result = search(report, title);
+          if (result) {
+            return result;
+          }
+        }
+        return undefined;
+      }
+
+      return search(this.root, title);
     };
 
-    this.toString = () => this.printOrganization(root, '');
-  };
+    this.toString = () => this.printOrganization(this.root, '');
+  }
 }
 
 export default Organization;
