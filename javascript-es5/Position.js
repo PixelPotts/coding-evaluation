@@ -30,8 +30,13 @@ module.exports = function (title, employee) {
     },
 
     toString: function () {
-      const emp = employee ? `: ${employee.toString()}` : '';
-      return `${title}${emp}`;
+      let emp = employee;
+      if (employee && typeof employee === 'object' && typeof employee.toString === 'function') {
+        emp = employee.toString();
+      }
+      return `${title}${emp ? ': ' + emp : ''}`;
     }
+
+
   };
 };
