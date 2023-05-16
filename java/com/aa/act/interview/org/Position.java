@@ -55,7 +55,7 @@ public class Position {
 	}
 
 	@Override
-	public String toString() {
-		return title + employee.map(e -> ": " + e.toString()).orElse("");
-	}
+    public String toString() {
+        return title + employee.map(e -> ": " + e.toString()).orElse("");
+    }
 }
